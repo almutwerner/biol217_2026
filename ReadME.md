@@ -1,6 +1,6 @@
 # Biol217-2025 
 
-<img src="./resources/01_biol217_poster.png" alt="Poster for biol217" width="800">
+<img src="./esources/Roadmap_2026.jpg" alt="Poster for biol217" width="800">
 
 
 ## Here is how to use srun for ANVIO interactive:
