@@ -43,22 +43,26 @@ Since we initiated the interactive session with `srun`, the web server will be t
 ssh -L localhost:8080:localhost:8080 sunam###@caucluster.rz.uni-kiel.de
 ```
 
-From `sunam###`, connect to node `n###`:  
+As `sunam###`, connect to node `n###` (both are part of the cluster):  
 
 ``` bash
 ssh -L localhost:8080:localhost:8080 n###
 ```
 
-Since we want to interact with the web app on node `n###` conveniently from the classroom, we need a way to _forward_ what we do with the web app locally to `sunam###` and then from `sunam###` to node `n###`. That is what the [`-L`](https://www.man7.org/linux/man-pages/man1/ssh.1.html) (local port forwarding) option does. The first `localhost:8080` is interpreted relative to the computer that initiates the `ssh` connection, while the second `localhost:8080` is interpreted relative to the remote `ssh` connection target. With the first command, if a process talks to port `8080` on your classroom computer (such as a browser opening the `anvi'o` web app), that conversation will be forwarded to `sunam###` at port `8080`. With the second command, if a process talks to port `8080` on `sunam###`, that conversation will then be forwarded to node `n###`.  
+Since we want to interact with the web app on node `n###` conveniently from the classroom, we need a way to _forward_ what we do with the web app locally to `sunam###` and then from `sunam###` to node `n###`. That is what the [`-L`](https://www.man7.org/linux/man-pages/man1/ssh.1.html) (local port forwarding) option does. The first `localhost:8080` is interpreted relative to the computer that initiates the `ssh` connection, while the second `localhost:8080` is interpreted relative to the remote `ssh` connection target. With the first `ssh` command, if a program/process talks to port `8080` on your classroom computer (such as a browser opening the `anvi'o` web app), that conversation will be forwarded to `sunam###` at port `8080`. With the second `ssh` command, if a process talks to port `8080` on `sunam###`, that conversation will then be forwarded to node `n###`.  
 
 Once the connections are established, you can start playing around with the data by accessing [http://127.0.0.1:8080/](http://127.0.0.1:8080/). If port `8080` is busy, you can try port `8060` instead (`ssh -L localhost:8060:localhost:8060` then access [http://127.0.0.1:8060/](http://127.0.0.1:8060/)).  
 
 
 ## How to connect to the CAU cluster from home  
 
-The CAU cluster can only be accessed by computers whose IP addresses are within the university network. Therefore, to connect your home computer to the cluster, you must first install a VPN client that is supported by the university's IT department. Just follow the instructions here: [de](https://www.rz.uni-kiel.de/de/tipps/vpn) or [en](https://www.rz.uni-kiel.de/en/hints-howtos/vpn17).  
+The CAU cluster can only be accessed by computers whose IP addresses are within the university network. Therefore, you must use a VPN client to make your personal device appear like a university computer. Just follow the instructions here: [de](https://www.rz.uni-kiel.de/de/tipps/vpn) or [en](https://www.rz.uni-kiel.de/en/hints-howtos/vpn17). Note: In order to access the CAU cluster, you will need to connect to the university network as `sunam###` instead of `stu######` (unless, of course, your `stu######` account has also been granted cluster access from other engagements). Once a VPN connection to the university network is in place, you can open your computer's terminal and log into your `sunam###` account as usual to run computations.  
 
-Once a VPN connection to the university network is established, you can open your computer's terminal and log into your `sunam###` account as usual. For file transfers, you can use commands such as `scp`, `rsync`, and `sftp` (see [here](https://tecadmin.net/transferring-files-over-ssh/), for example). If you are more GUI-inclined, you can use [MobaXterm](https://mobaxterm.mobatek.net/) instead of your computer's built-in terminal to browse files remotely.  
+For file transfers, you can use commands such as `scp`, `rsync`, and `sftp` (see [here](https://tecadmin.net/transferring-files-over-ssh/), for example). If you are more GUI-inclined, you can install graphical SSH/SFTP clients to browse files visually on remote servers. Some of them even let you perform drag-and-drop magic. Below are a few options you can try:  
+
++ Windows-only (unless with [Wine](https://www.winehq.org/)): [MobaXterm](https://mobaxterm.mobatek.net/), [WinSCP](https://winscp.net/eng/index.php) [Solar-PuTTY](https://www.solarwinds.com/free-tools/solar-putty)
++ Cross-platform: [Cyberduck](https://cyberduck.io/), [FileZilla](https://filezilla-project.org/?ref=sftptogo.com), [Termius](https://termius.com/)
++ Linux-specific: Nautilus (the default file manager of GNOME), Dolphin (the default file manager of KDE)
 
 
 <!-- Comment begins - # Below is the old version of this file from 2025
