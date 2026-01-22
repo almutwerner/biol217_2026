@@ -12,7 +12,7 @@ Header with three or more # will not be automatically underlined
 If you want some text to start in the next line, a ENTER is not enough.
 
 Use two Enters, <br>
-or instert <#br> (without the #!) where needed.
+or instert \<br> where needed.
 
 # Create a list
 1.
@@ -34,7 +34,7 @@ or instert <#br> (without the #!) where needed.
 
 
 # Documenting code
-Use ` ``` ` to highlight your code in  blocks
+Use \``` to highlight your code in  blocks
 ```
 print("Hello World")
 ```
@@ -44,7 +44,7 @@ Type work you want to be hyperlinked in [] and the link beind in ()
 [FastQC](https://github.com/s-andrews/FastQC)
 
 
-# Create a table  (use pipes `|`)
+# Create a table  (use pipes \|)
  ### Tools used:
 | Tool | Version | Repository |
 | --- | --- | --- |
