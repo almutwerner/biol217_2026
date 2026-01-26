@@ -11,15 +11,21 @@ Modifications:
 -- -- -- -- -- -- -- -- -- -- -- -->
 
 
+**$$\color{red}DAY\ 2$$**
+
+
 <!-- Table of Contents GFM -->
 
 * [From raw reads to MAGs](#from-raw-reads-to-mags)
     * [1. Aim](#1-aim)
-    * [2. Tools used in tutorials Day2, Day3 and Day4](#2-tools-used-in-tutorials-day2-day3-and-day4)
-    * [3. Bash script and the working system](#3-bash-script-and-the-working-system)
+    * [2. Tools used in tutorials Days 2 - 5](#2-tools-used-in-tutorials-days-2---5)
+    * [3. Bash scripting and the working system](#3-bash-scripting-and-the-working-system)
         * [3.1. Performing batch calculations](#31-performing-batch-calculations)
         * [3.2. Batch parameters](#32-batch-parameters)
         * [3.3. Special batch parameters](#33-special-batch-parameters)
+        * [3.4. Pay attention to the following](#34-pay-attention-to-the-following)
+        * [3.5. Monitoring submitted jobs](#35-monitoring-submitted-jobs)
+        * [3.6. Putting everything together](#36-putting-everything-together)
     * [4. The dataset](#4-the-dataset)
     * [5. Preparation](#5-preparation)
 * [Day 2 Workflow](#day-2-workflow)
@@ -35,18 +41,18 @@ Modifications:
 
 ## 1. Aim
 
-In this tutorial, the aim is to learn how to assemble Metagenome Assembled Genomes (MAG) from raw reads. 
+In the tutorials for days 2 - 5, the aim is to learn how to assemble Metagenome Assembled Genomes (MAG) from raw reads. 
 You will start by 
 * Pre-processing the raw reads (trimming adapters, removing chimeras, removing phiX174 virus sequences…) 
-* Assemble reads into contigs/fasta
-* Assess quality of assemblies
-* Bin contigs into MAGs
-* Asses the completeness, contamination, and strain heterogeneity of your MAGs
+* Assembling reads into contigs/fasta
+* Assessing quality of assemblies
+* Binning contigs into MAGs
+* Assessing the completeness, contamination, and strain heterogeneity of your MAGs
 
 **! We are not taking credit for the tools, we are simply explaining how they work for an in-house tutorial !** 
 
 
-## 2. Tools used in tutorials Day2, Day3 and Day4
+## 2. Tools used in tutorials Days 2 - 5
 
 | Tool | Version | Repository |
 | --- | --- | --- |
@@ -62,7 +68,7 @@ You will start by
 | GUNC | 1.0.5 | [GUNC](https://grp-bork.embl-community.io/gunc/ ) |
 
 
-## 3. Bash script and the working system
+## 3. Bash scripting and the working system
 
 The CAU cluster is a Linux-based cluster that is designed for serial, moderately parallel, and high-memory computation.
 
@@ -78,7 +84,9 @@ An example script, `template.sh`, is provided in your `$WORK` directory.
 
 Note that every script starts with the directive `#!/bin/bash` on the first line to indicate which language/interpreter the system should use. The subsequent lines contain the directive `#SBATCH`, followed by a specific resource request or some other job information.  
 
-After the lines with the SBATCH settings, pre-installed modules can be loaded (if required). A list of these available modules can be shown with `module av`. Next is the body of the job script, which calls up any commands and programs the user wants to run. Finally, to monitor the duration and resource usage of the script run, the `jobinfo` command is added at the end.
+After the lines with the SBATCH settings, pre-installed modules can be loaded (if required). A list of these available modules can be shown with `module av`. $\color{yellow}Tip:$ If you want to silence the error message of loading `micromamba`, you can add either `2> /dev/null` or `> /dev/null 2>&1` to the loading command, but $\color{red}be\ very\ careful$ whenever you silence any error messages $\color{red}!!$  
+
+Next is the body of the job script, which calls up any commands and programs the user wants to run. Finally, to monitor the duration and resource usage of the script run, the `jobinfo` command is added at the end.  
   
 ### 3.2. Batch parameters
 
@@ -99,16 +107,18 @@ The following table summarizes the most important job parameters.
 | --mail-user=\<email-address\> | Set email address for notifications |
 | --mail-type=\<type\> | Type of email notification: BEGIN, END, FAIL or ALL |
 
-
 ### 3.3. Special batch parameters
   
 An important job parameters specific for our course for dedicated resources.
 
-```
+```bash
 #SBATCH --reservation=biol217
 ```
+
 **$\color{red}ALWAYS\ USE\ IT\ FOR\ THE\ COURSE!$**
-  
+
+### 3.4. Pay attention to the following  
+
 **OTHER IMPORTANT NOTES FOR OUR COURSE:** 
 
 - **A BATCH SCRIPT SUBMISSION IS TO BE DONE FOR ALL DAYS, NOT JUST TODAY**
@@ -128,36 +138,40 @@ An important job parameters specific for our course for dedicated resources.
   
 **This will help with debugging and not overwriting output files.**
 
-AFTER ALL PARAMETERS comes 
+AFTER ALL PARAMETERS, come 
   
 - **conda/micromamba activation**
 - **commands and programs for executing a process in your pipeline (see below)**
 
+### 3.5. Monitoring submitted jobs  
+
 After job submission, the batch server will evaluates the job script and searches for free, appropriate compute resources. If there are resources, the server will execute the actual computation. Otherwise, the job will be queued for later.
 
-Successfully submitted jobs are managed by the batch system and can be displayed with the following commands:
+Successfully submitted jobs are managed by the batch system and can be displayed with the following commands:  
   
 ```bash
 squeue -u <username>
 squeue --me
 ```
   
-For showing individual jobs' details:
+For showing individual jobs' details:  
   
 ```bash
 squeue -j <jobid>
 scontrol show job <jobid>
 ```
   
-To terminate a running job or to remove a queued job from the queue:
+To terminate a running job or to remove a queued job from the queue:  
 
 ```bash
 scancel <jobid>  
 ``` 
 
-For more details, refer to the [documentation](https://www.rz.uni-kiel.de/en/our-portfolio/hiperf/caucluster?set_language=en) from the RZ of CAU KIEL.
+For more details, refer to the [documentation](https://www.rz.uni-kiel.de/en/our-portfolio/hiperf/caucluster?set_language=en) from the RZ of CAU KIEL.  
 
-Putting everything together, the batch script should start with something like this:
+### 3.6. Putting everything together  
+
+The batch script should start with something like this:  
 
 ```bash
 #!/bin/bash
@@ -172,8 +186,12 @@ Putting everything together, the batch script should start with something like t
 #SBATCH --reservation=biol217
 
 module load gcc12-env/12.1.0
-module load micromamba/1.4.2
+module load micromamba 2> /dev/null
+eval "$(micromamba shell hook --shell=bash)"
+export MAMBA_ROOT_PREFIX=$WORK/.micromamba
+
 cd $WORK
+
 micromamba activate .micromamba/envs/00_anvio/
 ```
 
@@ -189,11 +207,11 @@ In summary, the samples originated from one mesophilic agricultural biogas plant
 
 ## 5. Preparation
   
-All packages and programs needed are already installed into one `conda`/`micromamba` environment. Activate this environment every time you open a terminal using the following command:
+All packages and programs needed are already installed into their relevant `conda`/`micromamba` environments. Activate the appropriate environment manually every time you open a terminal using the following commands:  
 
 ```bash
 module load gcc12-env/12.1.0
-module load micromamba/1.3.1
+module load micromamba 2> /dev/null
 cd $WORK
 micromamba activate .micromamba/envs/00_anvio/
 ``` 
@@ -210,7 +228,7 @@ Running the command `<tool> --help` will display a detailed description of what 
 - **optional parameters**
 - **number of cpus/threads**
 
-A note for pathfinders: Whenever you need to provide a file or directory as input to a command, you can write either the _relative_ or _absolute_ path to that file/directory. For example, suppose you have a directory structure like this:
+$\color{yellow}Tip$ for pathfinders: Whenever you need to provide a file or directory as input to a command, you can write either the _relative_ or _absolute_ path to that file/directory. For example, suppose you have a directory structure like this:
 
 ```bash
 analysis/
@@ -234,8 +252,6 @@ MAAAAAAAAAANY errors are a direct result of command **$\color{red}typos$** and w
   
 
 ---
-
-**$$\color{red}DAY\ 2$$**
 
 
 # Day 2 Workflow
