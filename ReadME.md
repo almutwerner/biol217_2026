@@ -1,6 +1,6 @@
 # Biol217-2026
 
-<img src="./resources/Roadmap_2026.jpg" alt="Poster for biol217" width="800">
+<img src="./resources/Biol217_FIG.png" alt="Poster for biol217" width="800">
 
 
 ## How to run interactive sessions  
