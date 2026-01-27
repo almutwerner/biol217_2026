@@ -294,7 +294,7 @@ for i in *.fastq.gz; do fastqc $i -o output_folder/; done
 </details>  
   
   
-[`fastp`](https://github.com/OpenGene/fastp ) allows you to process and filter the reads. As we have paired-end reads, we need to specify two different input files: forward (`R1`) and reverse (`R2`).
+[`fastp`](https://github.com/OpenGene/fastp ) allows you to process and filter the reads. As we have paired-end reads, we need to specify two different input files: forward (`R1`) and reverse (`R2`). Fastp processed both read pairs per sample, so we need to run fastp for each sample individually
 
 ```bash
 fastp -i ? -I ? -o ? -O ? -t 6 -q 20 -h ? -R ?
