@@ -193,8 +193,7 @@ eval "$(micromamba shell hook --shell=bash)"
 export MAMBA_ROOT_PREFIX=$WORK/.micromamba
 
 cd $WORK
-
-micromamba activate .micromamba/envs/00_anvio/
+micromamba activate $WORK/.micromamba/envs/00_anvio/
 ```
 
 
