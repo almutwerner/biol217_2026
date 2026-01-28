@@ -1,14 +1,16 @@
-<!-- -- -- -- -- -- -- -- -- -- -- 
+<!-- - - - - - - - - - - - - - - - - - 
 Modder: Hieu
 
 Modifications:  
 
 + Clean up, correct, and rephrase explanations for clarity.  
 + Fix inaccurate or confusing sample code.  
-+ Re-organize code explanations.
-+ Add table of contents.
++ Describe command options in more details.  
++ Re-organize code explanations.  
++ Use `/path/to/` everywhere to indicate that a path should be in mind.  
++ Add table of contents.  
 
--- -- -- -- -- -- -- -- -- -- -- -->
+- - - - - - - - - - - - - - - - - - -->
 
 
 **$$\color{red}DAY\ 2$$**
@@ -213,12 +215,12 @@ All packages and programs needed are already installed into their relevant `cond
 module load gcc12-env/12.1.0
 module load micromamba 2> /dev/null
 cd $WORK
-micromamba activate .micromamba/envs/00_anvio/
+micromamba activate $WORK/.micromamba/envs/00_anvio/
 ``` 
 
 Most programs you will be using don't have a graphical user interface but are run through a terminal.  
 
-Running the command `<tool> --help` will display a detailed description of what the tool is for and what parameters it accepts. For example, if you are using `fastqc -o`  and you want to know what the flag `-o`  means, type `fastqc --help` and look for an explanation of `-o`.
+Running the command `<tool> --help` will display a detailed description of what the tool is for and what parameters it accepts. For example, if you are using `fastqc -o`  and you want to know what the flag `-o`  means, type `fastqc --help` and look for an explanation of `-o`.  
 
 **The most important things to look for in the help info of every tool are:**
 
@@ -240,7 +242,7 @@ analysis/
 If you are in the `analysis/` directory and want to take a quick look at the sequencing reads file, either of the following commands will work:  
 
 ```bash
-# Relative path (starts with . or ..)
+# Relative paths (starts with ./ or ../ or not)
 head ./input/reads.fastq.gz
 
 # Absolute path (starts with /)
@@ -249,13 +251,15 @@ head /work_beegfs/sunamNNN/analysis/input/reads.fastq.gz
 
 Remember to always double check you commands and paths, such as with `tab` completion, `echo`-ing the full command before running it, or `readlink -e`.  
 MAAAAAAAAAANY errors are a direct result of command **$\color{red}typos$** and wrong **$\color{red}paths\ !!!$**
-  
+ 
 
 ---
 
 
 # Day 2 Workflow
 
+Locate the reads for today and the next few tutorials at `$WORK/metagenomics/0_raw_reads/*.fastq.gz`.  
+All the tools that you need today are installed in the `00_anvio` environment.  
 
 ## 1. Quality control of raw reads
   
@@ -283,18 +287,23 @@ fastqc ? -o ?
 <details><summary><b>Complete command</b></summary>
 
 ```bash
-fastqc file.fastq.gz -o output_folder/ 
+fastqc /path/to/file.fastq.gz -o /path/to/output_folder/ 
 ```
+</details>
 
-or in a loop:
+<details><summary><b>Advanced version</b></summary>
+
+You can run `fastq` in a loop instead of typing it out multiple times:  
 
 ```bash
-for i in *.fastq.gz; do fastqc $i -o output_folder/; done
+for reads in /path/to/*.fastq.gz; do
+    fastqc $reads -o /path/to/output_folder/
+done
 ```
 </details>  
   
   
-[`fastp`](https://github.com/OpenGene/fastp ) allows you to process and filter the reads. As we have paired-end reads, we need to specify two different input files: forward (`R1`) and reverse (`R2`). Fastp processed both read pairs per sample, so we need to run fastp for each sample individually
+[`fastp`](https://github.com/OpenGene/fastp ) allows you to process and filter the reads. As we have paired-end reads, we need to specify two different input files: forward (`R1`) and reverse (`R2`). Run `fastp` for each sample individually:  
 
 ```bash
 fastp -i ? -I ? -o ? -O ? -t 6 -q 20 -h ? -R ?
@@ -302,21 +311,21 @@ fastp -i ? -I ? -o ? -O ? -t 6 -q 20 -h ? -R ?
 
 <details><summary>$\color{yellow}Hint$</summary>
 
-> `-i R1.fastq.gz` : input forward reads  
-> `-I R2.fastq.gz` : input reverse reads  
-> `-o output_folder/R1.fastq.gz` : output processed forward reads  
-> `-O output_folder/R2.fastq.gz` : output processed reverse reads  
-> `-t 6` : how many bases to trim from the tail of the forward reads  
-> `-q 20` : Phred score threshold for filtering bases  
-> `-h sample1.html` : name of the HTML-format report file  
-> `-R "Sample 1"` : title for the output report file  
+> `-i R1.fastq.gz` : Input forward reads.  
+> `-I R2.fastq.gz` : Input reverse reads.  
+> `-o output/folder/R1.fastq.gz` : Output processed forward reads.  
+> `-O output/folder/R2.fastq.gz` : Output processed reverse reads.  
+> `-t 6` : How many bases to trim from the tail of the forward reads.  
+> `-q 20` : Minimum Phred score threshold for filtering bases.  
+> `-h sample1.html` : Name of the HTML-format report file.  
+> `-R "Sample 1"` : Title to write inside the output HTML report file.  
 
 </details>
 
 <details><summary><b>Complete command</b></summary>
 
 ```bash
-fastp -i sample1_R1.fastq.gz -I sample1_R2.fastq.gz -o outdir/sample1_R1_clean.fastq.gz -O outdir/sample1_R2_clean.fastq.gz -t 6 -q 20 -h sample1.html -R "Sample 1 Fastp Report"
+fastp -i /path/to/sample1_R1.fastq.gz -I /path/to/sample1_R2.fastq.gz -o path/to/outdir/sample1_R1_clean.fastq.gz -O /path/to/outdir/sample1_R2_clean.fastq.gz -t 6 -q 20 -h /path/to/sample1.html -R "Sample 1 Fastp Report"
 ```
 
 </details>
@@ -324,26 +333,32 @@ fastp -i sample1_R1.fastq.gz -I sample1_R2.fastq.gz -o outdir/sample1_R1_clean.f
 
 ## 2. Assembly
 
-Once the reads are filtered and cleaned by `fastp`, you can perform genome assemblies using [`megahit`](https://github.com/voutcn/megahit ), an ultra-fast and memory-efficient NGS assembler. It is optimized for metagenomes coassembly and multiple samples.  
+Once the reads are filtered and cleaned by `fastp`, you can perform genome assemblies using [`megahit`](https://github.com/voutcn/megahit), an ultra-fast and memory-efficient NGS assembler. It is optimized for metagenomes coassembly and multiple samples. Check its [wiki page](https://www.metagenomics.wiki/tools/assembly/megahit) for more details.  
+
+$\color{yellow}Consideration:$ When is it better to pool sequencing reads from all samples together? When is it more appropriate to do a separate assembly for each sample?  
 
 $\color{red}Do\ not\ create\ the\ output\ folder\ beforehand\ !!$
 
 ```bash
-megahit -1 ? -1 ? -1 ? -2 ? -2 ? -2 ? -o ? --min-contig-len 1000 --presets meta-large -m 0.85 -t 12        
+megahit -1 ? -1 ? -1 ? -2 ? -2 ? -2 ? -o ? --min-contig-len 1000 --presets meta-large -m 0.85 -t 12
 ```
 
 <details><summary>$\color{yellow}Hint$</summary>
 
-> `-1` : input forward reads  
-> `-2` : input reverse reads  
-> `-o` : output directory  
+> `-1 R1_clean.fastq.gz` : Input clean forward reads.  
+> `-2 R2_clean.fastq.gz` : Input clean reverse reads.  
+> `-o output/folder/` : Output directory to store the assembly.  
+> `--min-contig-len 1000` : Minimum contig length to include in the output assembly.  
+> `--presets meta-large` : Use pre-set assembly run parameters for _large_ and complex _metagenomes_.  
+> `-m 0.85` : Maximum computer memory to use for computations.  
+> `-t 12`: Number of threads to use for computations.  
 
 </details>
 
 <details><summary><b>Complete command</b></summary>
 
 ```bash
-megahit -1 sample1_R1_clean.fastq.gz -1 sample2_R1_clean.fastq.gz -1 sample3_R1_clean.fastq.gz -2 sample1_R2_clean.fastq.gz -2 sample2_R2_clean.fastq.gz -2 sample3_R2_clean.fastq.gz -o /PATH/TO/3_coassembly/ --min-contig-len 1000 --presets meta-large -m 0.85 -t 12   
+megahit -1 /path/to/sample1_R1_clean.fastq.gz -1 /path/to/sample2_R1_clean.fastq.gz -1 /path/to/sample3_R1_clean.fastq.gz -2 /path/to/sample1_R2_clean.fastq.gz -2 /path/to/sample2_R2_clean.fastq.gz -2 /path/to/sample3_R2_clean.fastq.gz -o /path/to/3_coassembly/ --min-contig-len 1000 --presets meta-large -m 0.85 -t 12   
 ```
 
 </details>
@@ -353,7 +368,7 @@ During the assembly process, `megahit` tried out several k-mer sizes and wrote t
 To visualize the assembled contigs in `Bandage`, you need to convert the plain-text sequence file (`fasta`) into a fasta-like graph (`fastg`). To create a graph of the final assembly with k-mer size 99, use:  
   
 ```
-megahit_toolkit contig2fastg 99 final.contigs.fa > final.contigs.fastg
+megahit_toolkit contig2fastg 99 /path/to/final.contigs.fa > /path/to/final.contigs.fastg
 ```
 
 Now, open `final.contigs.fastg` in `Bandage`. Once it is loaded (which might take a moment), click on `Draw graph` to visualize the contigs in the assembly.   
@@ -362,4 +377,4 @@ You can label the nodes by adding parameters like Depth or Name. Whenever you ch
 
 ## 3. Questions
   
-* **Attach the figure you generated and explain briefly in your own words what you can see.**
++ **Attach the figure you generated and explain briefly in your own words what you can see.**
