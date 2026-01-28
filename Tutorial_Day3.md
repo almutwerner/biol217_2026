@@ -34,7 +34,7 @@ $${\color{red}DAY 3}$$
     * [3.3. Visualizing the contigs database](#33-visualizing-the-contigs-database)
     * [3.4. Creating an `anvi'o` profile](#34-creating-an-anvio-profile)
     * [3.5. Merging `anvi'o` profiles from all samples](#35-merging-anvio-profiles-from-all-samples)
-    * [3.5. Binning contigs into genomes](#35-binning-contigs-into-genomes)
+    * [3.6. Binning contigs into genomes](#36-binning-contigs-into-genomes)
         * [Using `MetaBAT2`](#using-metabat2)
         * [Using `MaxBin2`](#using-maxbin2)
 * [Questions](#questions-1)
@@ -60,14 +60,8 @@ Today, you will get to check in more details how well the assembly went, and beg
 In metagenomic binning, we group together assembled contigs that likely belong to the same genome to get a more complete and informative genome. The grouping is based on various metrics like tetranucleotide frequency, differential coverage, and genome completion.  
 
 
-Most of the tools in this tutorial will come from [`anvi'o`](https://anvio.org/), an **AN**alysis and **VI**sualization platform for microbial **'O**mics. It is VERY extensive, contains a huge collection of tools, is highly integrated, super easy to use (supposedly), and interactive.  
+Most of the tools in this tutorial come from [`anvi'o`](https://anvio.org/), an **AN**alysis and **VI**sualization platform for microbial **'O**mics. It is VERY extensive, contains a huge collection of tools, is highly integrated, super easy to use, and interactive. You can check out its documentations ([1](https://anvio.org/help/main/)), tutorials ([2](https://anvio.org/learn/), [3](https://merenlab.org/2016/06/22/anvio-tutorial-v2/)) and other [resources](https://anvio.org/blog/).    
 
-
-
-
-Together with a very extensive program, [anvi’o](https://anvio.org/ ) offers a lot of explanations on every command or data type it uses, so, whenever you need more information than provided here, look through the online tutorial [Anvi'o User Tutorial for Metagenomic Workflow](https://merenlab.org/2016/06/22/anvio-tutorial-v2/ ) !
-
-/
 The workflow will be as follows:  
 
 1. Check assembly quality  
@@ -75,7 +69,6 @@ The workflow will be as follows:
 3. Bin contigs into genomes (MAGs) based on read mapping  
 4. Estimate the quality of binned MAGs  
 
-Most of the tools today will be part of the [`anvi'o`](https://anvio.org/) suite of programs.  
 Again, $\color{red}RUN\ EVERYTHING\ IN\ A\ BATCH\ SCRIPT$, unless otherwise noted.  
 
 
@@ -194,7 +187,7 @@ bowtie2-build /path/to/contigs.anvio.fa /path/to/contigs.anvio.fa.index
 </details>
 
 **Note:** `bowtie2-build` will split the index into multiple files like `*.1.bt2`, `*.2.bt2`, `*.3.bt2`, and so on. **Do not touch them.**  
-$\color{red}Only work with$ `contigs.anvio.fa.index`.   
+$\color{red}Only\ work\ with$ `contigs.anvio.fa.index`.   
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -232,7 +225,7 @@ bowtie2 -1 /path/to/sample1_R1_clean.fastq.gz -2 /path/to/sample1_R2_clean.fastq
 
 </details>
 
-If you are familiar with [string manipulation](https://bowtie-bio.sourceforge.net/bowtie2/manual.shtml) in `bash`, you can try running a `for` loop.  
+If you are familiar with [string manipulation](https://tldp.org/LDP/abs/html/string-manipulation.html) in `bash`, you can try running a `for` loop.  
 
 <details><summary><b>Advanced version</b></summary>
 
@@ -320,7 +313,7 @@ for unsorted in /path/to/*sample.bam; do anvi-init-bam /path/to/$unsorted -o /pa
 </details>
 
 **Note:** The command will automatically generate `*.bam.bai` files. They are the index files. **Do not touch them.**  
-$\color{red}Only work with$ the $\color{red}sorted$ `.bam`.   
+$\color{red}Only\ work\ with$ the $\color{red}sorted$ `.bam`.   
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -497,7 +490,7 @@ Now, everything is ready for genome _**binning**_. You will try and compare two 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-### 3.5. Binning contigs into genomes  
+### 3.6. Binning contigs into genomes  
 
 #### Using `MetaBAT2`  
 
