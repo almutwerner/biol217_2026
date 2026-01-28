@@ -552,8 +552,8 @@ anvi-summarize -p /path/to/merged_profiles/PROFILE.db -c /path/to/contigs.db -o 
 
 ## Questions  
 
-+ How many ${\color{red}ARCHAEA}$ bins did you get from `MetaBAT2`?  
-+ How many ${\color{red}ARCHAEA}$ bins did you get from `Maxbin2`?  
++ **How many ${\color{red}ARCHAEA}$ bins did you get from `MetaBAT2`?**  
++ **How many ${\color{red}ARCHAEA}$ bins did you get from `Maxbin2`?**  
 
 _**Note:**_ We will use the bins generated from `MetaBAT2` for downstream steps.  
 
@@ -598,6 +598,6 @@ anvi-interactive -p /path/to/merged_profiles/PROFILE.db -c /path/to/contigs.db -
 
 ## Questions
 
-+ Which binning strategy gives you the best quality for the $\color{red}ARCHAEA$ bins?  
-+ How many $\color{red}ARCHAEA$ bins do you get that are of **High** quality?  
-+ How many $\color{red}BACTERIA$ bins do you get that are of **High** quality?  
++ **Which binning strategy gives you the best quality for the $\color{red}ARCHAEA$ bins?**  
++ **How many $\color{red}ARCHAEA$ bins do you get that are of _High_ quality?**  
++ **How many $\color{red}BACTERIA$ bins do you get that are of _High_ quality?**  
