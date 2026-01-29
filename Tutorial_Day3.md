@@ -507,7 +507,10 @@ anvi-cluster-contigs -p ? -c ? -C METABAT2 --driver metabat2 --log-file ? --just
 anvi-summarize -p ? -c ? -o ? -C METABAT2
 ```
 
-_**Note**_: The bins will be stored _**within your merged**_ profile and not as a new file. (Remember how an `anvi'o` profile can store many types of complex data.)  
+_**Note**_:
+
+- The bins will be stored _**within your merged**_ profile and not as a new file. (Remember how an `anvi'o` profile can store many types of complex data.)  
+- **DO NOT** create the output folders beforehand. `anvi'o` will complain.  
 
 <details><summary>$\color{yellow}Hint$</summary>
 
