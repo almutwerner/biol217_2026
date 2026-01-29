@@ -60,7 +60,7 @@ Here, the remote computer is the interactive compute node on the CAU cluster, an
 
 ### Step 2 - Run your interactive processes  
 
-In the terminal, activate the `anvi'o` environment:  
+In the terminal, activate the `anvi'o` environment as `nNNN`:  
 
 ``` bash
 module load gcc12-env/12.1.0
@@ -69,7 +69,11 @@ cd $WORK
 micromamba activate $WORK/.micromamba/envs/00_anvio/
 ```
 
-Then, run your interactive commands, such as `anvi-display-contigs-stats`, `anvi-interactive`, or `anvi-refine`.  
+Then, as `nNNN`, run your interactive commands, such as `anvi-display-contigs-stats`, `anvi-interactive`, or `anvi-refine`.  
+
+```bash
+anvi-interactive -p ? -c ? ? ?
+```
 
 The `anvi'o` interactive interface is built as a web application, so it will create a local web server to run the app. You will probably see an address like [http://127.0.0.1:8080/](http://127.0.0.1:8080/) being shown on the terminal.  
 
@@ -78,7 +82,7 @@ Since you are running interactive `anvi'o` from the interactive compute node `nN
 
 ### Step 3 - Connect to the interactive web server  
 
-Since we initiated the interactive session with `srun`, the web server will be terminated as soon as we cancel the `srun` command. Thus, you have to connect to the `anvi'o` web server on node `nNNN` from _**a new terminal tab**_. Again, you will have to connect to `sunamNNN` first before having access to the interactive nodes.  
+Since we initiated the interactive session with `srun`, the web server will be terminated as soon as we cancel the `srun` command. Thus, you have to connect to the `anvi'o` web server on node `nNNN` from _**a new terminal tab**_. Again, you will have to connect to `sunamNNN` first before you can access the interactive nodes.  
 
 ``` bash
 ssh -L localhost:8080:localhost:8080 sunamNNN@caucluster.rz.uni-kiel.de
