@@ -65,8 +65,8 @@ In the terminal, activate the `anvi'o` environment as `nNNN`:
 ``` bash
 module load gcc12-env/12.1.0
 module load micromamba 2> /dev/null
-cd $WORK
 micromamba activate $WORK/.micromamba/envs/00_anvio/
+cd $WORK
 ```
 
 Then, as `nNNN`, run your interactive commands, such as `anvi-display-contigs-stats`, `anvi-interactive`, or `anvi-refine`.  
