@@ -33,7 +33,8 @@ $${\color{red}DAY 3}$$
     * [2.1. Re-formatting the contigs](#21-re-formatting-the-contigs)
     * [2.2. Indexing the contigs](#22-indexing-the-contigs)
     * [2.3. Mapping reads onto contigs](#23-mapping-reads-onto-contigs)
-    * [2.4. Sorting mapped reads](#24-sorting-mapped-reads)
+    * [2.4. Converting read mapping results to a machine-friendly format](#24-converting-read-mapping-results-to-a-machine-friendly-format)
+    * [2.5. Sorting mapped reads](#25-sorting-mapped-reads)
 * [3. Binning reads](#3-binning-reads)
     * [3.1. Generating contigs database](#31-generating-contigs-database)
     * [3.2. Annotating CDSs](#32-annotating-cdss)
@@ -244,7 +245,13 @@ done
 
 In the end, there should be 3 `.sam` files (one for each sample).  
 
-If you look at the `*.sam` files (e.g., `head`, `less`, `cat`), you will see that you can read them, which means a computer will have to translate them to machine language every time it reads the file. We don't really need to read these read mapping files directly, so it is better to convert them into machine language (binary). This will make data processing go much faster.  
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+### 2.4. Converting read mapping results to a machine-friendly format  
+
+If you look at the `*.sam` files (using `head`, `less`, or `cat`), you will see that you can read them, which means a computer will have to translate them into machine language every time it reads the file. We do not really need to read these read mapping files directly, so it is better to convert them into machine language (binary - 0 and 1). This will make data processing go much faster.  
 
 To conver **S**equence **A**lignment **M**ap (`.sam`) to **B**inary **A**lignment **M**ap (`.bam`), we can use [`samtools`](https://github.com/samtools/samtools). Detailed command-line parameters are found in its [documentation](https://www.htslib.org/doc/samtools.html).   
 
@@ -279,7 +286,7 @@ for sam_file in /path/to/*.sam; do samtools view -Sb $sam_file > "${sam_file/.sa
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-### 2.4. Sorting mapped reads  
+### 2.5. Sorting mapped reads  
 
 Sorting mapped reads not only speeds up data processing but also allows you to do downstream analyses such as visualization and variant calling (more info [here](https://samtools.org/which-samtools-command-is-used-to-sort-a-bam-file/)).  
 
@@ -569,6 +576,3 @@ Then, look into the output bin directory. What kinds of files are there? Where a
 
 + **How many ${\color{red}ARCHAEA}$ bins did you get from `MetaBAT2`?**  
 + **How many ${\color{red}ARCHAEA}$ bins did you get from `Maxbin2`?**  
-
-_**Note:**_ We will use the bins generated from `MetaBAT2` for downstream steps.  
-
