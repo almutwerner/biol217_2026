@@ -284,6 +284,9 @@ $\color{yellow}Hint:$ Also check the `index.html` report from binning.
 
 $\color{yellow}Tip:$ You can also try [`anvi-inspect`][anvi-inspect], [`anvi-script-get-coverage-from-bam`][get-cov-bam], or [`anvi-profile-blitz`][prof-blitz]. You can check their `--help` result or look at their documentations for details.  
 
+[anvi-inspect]: https://anvio.org/help/main/programs/anvi-inspect/
+[get-cov-bam]: https://anvio.org/help/main/programs/anvi-script-get-coverage-from-bam/
+[prof-blitz]: https://anvio.org/help/main/programs/anvi-profile-blitz/
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
