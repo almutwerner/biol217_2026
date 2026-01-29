@@ -32,8 +32,8 @@ $${\color{red}DAY 4}$$
     * [2.2. Creating interactive plots of the chimeras](#22-creating-interactive-plots-of-the-chimeras)
 * [Questions](#questions-1)
 * [3. Manual bin refinement](#3-manual-bin-refinement)
-        * [Questions](#questions-2)
-* [Coverage visualization](#coverage-visualization)
+* [Questions](#questions-2)
+* [4. Coverage visualization](#4-coverage-visualization)
 * [Questions](#questions-3)
 
 <!-- /Table of Contents -->
@@ -177,6 +177,9 @@ micromamba install bioconda::diamond==2.0.4.
 ```
 
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
 ### 2.2. Creating interactive plots of the chimeras  
 
 After running chimera detection, you can visualize the results in a plot.  
@@ -196,7 +199,7 @@ gunc plot -d ? -g ? --out_dir ?
 <details><summary><b>Complete command</b></summary>
 
 ``` bash
-gunc plot -d ./path/to/METABAT__BIN_NNN/gunc_out/diamond_output/*.diamond.progenomes_2.1.out -g ./path/to/gunc_out/gene_calls/gene_counts.json --out_dir ./path/to/gunc_out
+gunc plot -d ./path/to/METABAT__BIN_NNN/gunc_out/diamond_output/*.diamond.progenomes_2.1.out -g ./path/to/METABAT__BIN_NNN/gunc_out/gene_calls/gene_counts.json --out_dir ./path/to/gunc_out
 ```
 
 </details>
@@ -205,101 +208,83 @@ gunc plot -d ./path/to/METABAT__BIN_NNN/gunc_out/diamond_output/*.diamond.progen
 
 ```bash
 for mag in ./path/to/METABAT__BIN_*/*.fa; do
-    gunc plot -d ./diamond_output/METABAT__#-contigs.diamond.progenomes_2.1.out -g ./gene_calls/gene_counts.json
-    gunc run -i $mag -r $WORK/databases/gunc/gunc_db_progenomes2.1.dmnd --out_dir ./path/to/gunc_out --detailed_output --threads 12
+    bin_dir=$(dirname "$mag")
+    gunc plot -d $bin_dir/gunc_out/diamond_output/*.diamond.progenomes_2.1.out -g $bin_dir/gunc_out/gene_calls/gene_counts.json --out_dir ./path/to/gunc_out
 done
 ```
 
 </details>
 
 
-## Questions
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+## Questions  
 
 - **Do you get $\color{red}ARCHAEA$ bins that are chimeric?**  
     - $\color{yellow}Hint:$ Look at the CSS score and the column "PASS GUNC" in the `gunc` output tables for each bin.  
 - **In your own words, briefly explain what a chimeric bin is.**  
 
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
 ## 3. Manual bin refinement  
 
-As large metagenome assemblies can result in hundreds of bins, pre-select the better ones for manual refinement, e.g. > 70% completeness.
+As large metagenome assemblies can result in hundreds of bins, pre-select some of the better ones for manual refinement, e.g., > 70% completeness.  
 
-Before you start, make a **copy/backup** of your unrefined bins the ``ARCHAEA_BIN_REFINEMENT``.
+Again, you should ***create a copy*** of the original bin, and $\color{red}only\ work\ on\ the\ copy\ !!$  
 
-You can save your work as refinement overwrites the bins. 
-
-``` 
-module load gcc12-env/12.1.0
-module load micromamba/1.3.1
-micromamba activate 00_anvio
-``` 
-
-Use anvi refine to work on your bins manually. *“In the interactive interface, any bins that you create will overwrite the bin that you originally opened. If you don’t provide any names, the new bins’ titles will be prefixed with the name of the original bin, so that the bin will continue to live on in spirit.
-Essentially, it is like running anvi-interactive, but disposing of the original bin when you’re done.” https://anvio.org/help/main/artifacts/interactive/*
-
-
-
-```diff
--!!!!!!!!!!!!!!!!!!!!!AS MENTIONED BEFORE!!!!!!!!!!!!!!!!!!!!!
-- Here you need to access anvi’o interactive -
-- REPLACE the command line you want to run in interactive mode -
+``` bash
+cp ./path/to/PROFILE.db ./path/to/PROFILE_refined.db
 ```
 
+Then, use [`anvi-refine`][anvi-refine] to work on your bins manually. **Important:** `anvi-refine` will overwrite the original bins after you modify them.    
+$\color{red}Only\ work\ on\ the\ copy\ !!$ - `PROFILE_refined.db`.  
+
+[anvi-refine]: https://anvio.org/help/main/programs/anvi-refine/
+
+**Note:** This is an $\color{red}INTERACTIVE$ step. Follow the instructions in the `README.md` file $\color{red}!!!$  
+
+``` bash
+anvi-refine -c ./path/to/contigs.db -p ./path/to/refine/PROFILE_refine.db --bin-id METABAT__BIN_NN -C METABAT2 
 ```
-module load gcc12-env/12.1.0
-module load micromamba/1.3.1
-micromamba activate 00_anvio
 
-anvi-refine -c ./path/to/contigs.db -C METABAT2 -p ./path/to/merged_profiles/PROFILE.db --bin-id METABAT__##
-```
+$\color{yellow}Tips:$  
 
-You can now sort your bins by **GC content**, by **coverage** or both. 
-
-For refinement it is easier to use the clustering based on only differential coverage, and then only based on sequence composition in search for outliers.
-
-The interface allows you to categorize contigs into separate bins (selection tool). Unhighlighted contigs are removed when the data is saved.
-
-You can also evaluate taxonomy and duplicate single copy core genes.
+- You can sort your bins by GC content, coverage, or both.  
+- When refining bins, try clustering based on only differential coverage, and then only based on sequence composition to identify outliers.  
+- The interface allows you to categorize contigs into separate bins (selection tool).  
+- You can remove contigs. Unhighlighted contigs are removed when the data is saved.  
+- You can also evaluate the community's taxonomy and duplicated single-copy core genes.  
 
 
-You can also remove contigs. 
-
-Spend some time to experiment in the browser.
-
-For refinement use clustering based on only differential coverage, and then only based on sequence composition in search for outliers.
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-#### Questions
-* Does the quality of your ${\color{red}ARCHAEA}$ improve? 
-* hint: look at completeness redundancy in the interface of anvio and submit info of before and after 
-* Submit your output Figure
+## Questions
 
-> INSERT\
-> YOUR\
-> ANSWER\
-> HERE
+- **How much could you improve the quality of your ${\color{red}ARCHAEA}$?**  
+    - Compare the completeness and redundance of the bin *before* and *after* refining.  
+
+**Note:** Attach all relevant figures that you generated.  
 
 
-## Coverage visualization
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-You should manually visualize your **ARCHAEA BINS** coverage.
+
+## 4. Coverage visualization
+
+How abundant are the Archaea MAGs, actually?  
  
 **Do so by using anvio interactive interface.**
 
-## Questions
-  
-* **how abundant are the archaea bins in the 3 samples? (relative abundance)**
-* **you can also use anvi-inspect -p -c, anvi-script-get-coverage-from-bam or, anvi-profile-blitz. Please look up the help page for each of those commands and construct the appropriate command line
-
+- **you can also use anvi-inspect -p -c, anvi-script-get-coverage-from-bam or, anvi-profile-blitz.** Please look up the help page for each of those commands and construct the appropriate command line
 !NOTE: check your binning html output, the second table, and look for mean coverage
 
-* https://anvio.org/help/main/artifacts/summary/
-* 
- 
-> INSERT\
-> YOUR\
-> ANSWER\
-> HERE
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
+## Questions  
+  
+- **How abundant (relatively) are the $\color{red]Archaea$ bins in the 3 samples?**  
