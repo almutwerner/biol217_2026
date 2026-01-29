@@ -4,13 +4,19 @@ Date: 2026.01.28
 
 Modifications:  
 
-+ Rearrange the sections into a more logical order.  
-+ Remove redundant content.  
-+ Rephrase explanations for clarity.  
-+ Fix inaccurate or confusing sample code.  
-+ Re-organize code explanations.  
-+ Explain command options in more details.  
-+ Add table of contents.  
+- Rearrange the sections into a more logical order.  
+- Remove redundant content (assembly from day 2).    
+- Move bin quality evaluation to day 4.  
+- Rephrase explanations for clarity.  
+- Fix inaccurate or confusing sample code.  
+- Re-organize code explanations.  
+- Explain command options in more details.  
+- Add table of contents.  
+
+To add:  
+- Note on command run time & verifying output integrity before going for break.  
+- Clarification on bowtie2 prefix naming scheme.  
+- Talk about potential "Warning" from anvio profile db
 
 - - - - - - - - - - - - - - - - -->
 
@@ -30,7 +36,7 @@ $${\color{red}DAY 3}$$
     * [2.4. Sorting mapped reads](#24-sorting-mapped-reads)
 * [3. Binning reads](#3-binning-reads)
     * [3.1. Generating contigs database](#31-generating-contigs-database)
-    * [3.2. Annotating ORFs](#32-annotating-orfs)
+    * [3.2. Annotating CDSs](#32-annotating-cdss)
     * [3.3. Visualizing the contigs database](#33-visualizing-the-contigs-database)
     * [3.4. Creating an `anvi'o` profile](#34-creating-an-anvio-profile)
     * [3.5. Merging `anvi'o` profiles from all samples](#35-merging-anvio-profiles-from-all-samples)
@@ -38,10 +44,6 @@ $${\color{red}DAY 3}$$
         * [Using `MetaBAT2`](#using-metabat2)
         * [Using `MaxBin2`](#using-maxbin2)
 * [Questions](#questions-1)
-* [4. Evaluating MAGs Quality](#4-evaluating-mags-quality)
-    * [Estimating genome completeness](#estimating-genome-completeness)
-    * [Examining bins manually](#examining-bins-manually)
-* [Questions](#questions-2)
 
 <!-- /Table of Contents -->
 
@@ -171,7 +173,7 @@ bowtie2-build ? ?
 
 <details><summary>$\color{yellow}Hint$</summary>
 
-> `bowtie2-build <contigs> <index>`
+> `bowtie2-build <contigs> <index>`  
 > `<contigs>` : Input re-formatted contigs fasta file to be indexed.  
 > `<index>` : Output index file.  
 
@@ -251,7 +253,7 @@ samtools view -Sb ? > ?
 
 <details><summary>$\color{yellow}Hint$</summary>
 
-> `<sam> > <bam>`
+> `<sam> > <bam>`  
 > `-S` : Select `.sam` as the input format (only for old versions of `samtools`).  
 > `-b` : Select `.bam` as the output format.  
 
@@ -288,7 +290,7 @@ anvi-init-bam ? -o ?
 
 <details><summary>$\color{yellow}Hint$</summary>
 
-> `<unsorted> -o <sorted>`
+> `<unsorted> -o <sorted>`  
 > `<unsorted>` : Input unsorted `.bam` file.  
 > `<sorted>` : Output sorted `.bam` file.  
 
@@ -357,7 +359,7 @@ anvi-gen-contigs-database -f /path/to/contigs.anvio.fa -o /path/to/contigs.db -n
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-### 3.2. Annotating ORFs  
+### 3.2. Annotating CDSs  
 
 It is also a good idea to search for any potential biological functions that the predicted ORFs may have. This information can come in handy when you want to study the metabolism of the species in the experiment (for example). We will do that with [`anvi-run-hmms`](https://anvio.org/help/main/programs/anvi-run-hmms/J). It will perform an HMM search against several collections of genes to see if the ORFs predicted by `anvi-gen-contigs-database` are similar to any known genes.  
 
@@ -450,7 +452,7 @@ done
 In the output folder that you typed into the `anvi-profile` command, you will find the following files:  
 
 > `RUNLOG.txt` : detailed log for the profiling run.  
-> `PROFILE.db` : The desired `anvi’o` profile database that contains key information about the mapping of short reads from multiple samples onto the assembled contigs.  
+> `PROFILE.db` : The desired `anvi'o` profile database that contains key information about the mapping of short reads from multiple samples onto the assembled contigs.  
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -484,13 +486,9 @@ anvi-merge /path/to/sample1/PROFILE.db /path/to/sample2/PROFILE.db /path/to/samp
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-Now, everything is ready for genome _**binning**_. You will try and compare two programs: [`MetaBAT2`](https://bitbucket.org/berkeleylab/metabat/src/master/ ) and [`MaxBin2`](https://sourceforge.net/projects/maxbin2/).  
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
 ### 3.6. Binning contigs into genomes  
+
+Now, everything is ready for genome _**binning**_. You will try and compare two programs: [`MetaBAT2`](https://bitbucket.org/berkeleylab/metabat/src/master/ ) and [`MaxBin2`](https://sourceforge.net/projects/maxbin2/).  
 
 #### Using `MetaBAT2`  
 
@@ -557,47 +555,3 @@ anvi-summarize -p /path/to/merged_profiles/PROFILE.db -c /path/to/contigs.db -o 
 
 _**Note:**_ We will use the bins generated from `MetaBAT2` for downstream steps.  
 
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
-## 4. Evaluating MAGs Quality  
-
-### Estimating genome completeness  
-
-Each bin is now hypothetically a genome of one species (or more precisely, a metagenome-assembled genome - MAG). You can evaluate how complete and pure each of the bin (MAG) is with [`anvi-estimate-genome-completeness`](https://anvio.org/help/9/programs/anvi-estimate-genome-completeness/):  
-
-```
-anvi-estimate-genome-completeness -c /path/to/contigs.db -p /path/to/merged_profiles/PROFILE.db -C METABAT2
-```
-
-To only check what bin collections you have generated (but not calculate genome completeness), you can use:  
-
-```ssh
-anvi-estimate-genome-completeness --list-collections -p /path/to/merged_profiles/PROFILE.db -c /path/to/contigs.db
-```
-
-This data should also be available already as part of the `.html` report from binning (`/path/to/SUMMARY_METABAT2/index.html`).  
-
-
-### Examining bins manually  
-
-**Note:** This is an $\color{red}INTERACTIVE$ step. Follow the instructions in the `README.md` file $\color{red}!!!$  
-
-Use the following command to initiate an interactive `anvi'o` session:  
-
-```
-anvi-interactive -p /path/to/merged_profiles/PROFILE.db -c /path/to/contigs.db -C METABAT2
-```
-
-``anvi-interactive`` gives you the possibility to manually inspect and work on bins. Once your browser window is open, you can set all relevant parameters, then click on `Draw` in the bottom left corner to generate a view of the bins.  
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
-## Questions
-
-+ **Which binning strategy gives you the best quality for the $\color{red}ARCHAEA$ bins?**  
-+ **How many $\color{red}ARCHAEA$ bins do you get that are of _High_ quality?**  
-+ **How many $\color{red}BACTERIA$ bins do you get that are of _High_ quality?**  
