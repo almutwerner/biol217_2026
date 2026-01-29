@@ -1,132 +1,227 @@
-# 
+<!-- - - - - - - - - - - - - - - - 
+Modder: Hieu
+Date: 2026.01.29
+
+Modifications:  
+
+. Add bin summary from day 3.  
+. Rephrase explanations for clarity.  
+. Fix inaccurate or confusing sample code.  
+. Re-organize code explanations.  
+. Explain command options in more details.  
+. Add table of contents.  
+
+To add:  
+.
+
+- - - - - - - - - - - - - - - - -->
+
+
 $${\color{red}DAY 4}$$
-# 
 
-## Your data
-``` 
-cd /work_beegfs/sunam###/metagenomics
+
+<!-- Table of Contents GFM -->
+
+* [Aim](#aim)
+* [1. Evaluating MAGs Quality](#1-evaluating-mags-quality)
+    * [Estimating genome completeness](#estimating-genome-completeness)
+    * [Examining bins manually](#examining-bins-manually)
+* [Questions](#questions)
+* [2. Refining Archaea bins](#2-refining-archaea-bins)
+    * [2.1. Detecting chimeras in MAGs](#21-detecting-chimeras-in-mags)
+    * [2.2. Creating interactive plots of the chimeras](#22-creating-interactive-plots-of-the-chimeras)
+* [Questions](#questions-1)
+* [3. Manual bin refinement](#3-manual-bin-refinement)
+        * [Questions](#questions-2)
+* [Coverage visualization](#coverage-visualization)
+* [Questions](#questions-3)
+
+<!-- /Table of Contents -->
+
+
+## Aim  
+
+
+On day 3, you binned assembled contigs into genome bins, and checked the bins to see if they represent bacteria or Archaea. Today, you will examine these bins more closely, and try to improve their quality.  
+
+We will focus on refining only the $\color{red}ARCHAEA\ BINS\ !!$  
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+## 1. Evaluating MAGs Quality  
+
+Once the binning is done, you can look at how good each of the MAG bin is.  
+
+### Estimating genome completeness  
+
+Each bin is now hypothetically a genome of one species (or more precisely, a metagenome-assembled genome - MAG). You can evaluate how complete and redundant each of the bin (MAG) is with [`anvi-estimate-genome-completeness`][est-compl]:  
+
+[est-compl]: https://anvio.org/help/9/programs/anvi-estimate-genome-completeness/  
+
+```
+anvi-estimate-genome-completeness -c ./path/to/contigs.db -p ./path/to/merged_profiles/PROFILE.db -C METABAT2
+```
+
+To only check what bin collections you have generated (without calculating genome completeness), you can use:  
+
+```bash
+anvi-estimate-genome-completeness --list-collections -p ./path/to/merged_profiles/PROFILE.db -c ./path/to/contigs.db
+```
+
+This data should also be available already as part of the `.html` report from binning (`./path/to/SUMMARY_METABAT2/index.html`).  
+
+
+### Examining bins manually  
+
+**Note:** This is an $\color{red}INTERACTIVE$ step. Follow the instructions in the `README.md` file $\color{red}!!!$  
+
+Use the following command to initiate an interactive `anvi'o` session:  
+
+```
+anvi-interactive -p ./path/to/merged_profiles/PROFILE.db -c ./path/to/contigs.db -C METABAT2
+```
+
+`anvi-interactive` manually inspect and customize the bins. Once your browser window is open, you can set all relevant parameters, then click on `Draw` in the bottom left corner to generate a view of the bins.  
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+## Questions
+
++ **Which binning strategy gives you the best quality for the $\color{red}ARCHAEA$ bins?**  
++ **How many $\color{red}ARCHAEA$ bins do you get that are of _High_ quality?**  
++ **How many $\color{red}BACTERIA$ bins do you get that are of _High_ quality?**  
+
+_**Note:**_ We will use only the bins generated from `MetaBAT2` for downstream steps.  
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+## 2. Refining Archaea bins  
+
+When you want to alter some data, it is always a good idea to work on a copy of the data first. Locate the $\color{red}Archaea\ bins$ from `MetaBAT2`. The contigs in each bin are contained together in one `fasta` file, and this is the only file you need.  
+**Copy the fasta files** to a new directory for refining (remember to ***keep the bins separate***, each in a different directory).  
+
+$\color{yellow}Tip:$ As an example, here is one way to organize the bins for refining:  
+
+``` bash
+day4/
+└── refine/
+    ├── METABAT__10/
+    │   └── METABAT__10-contigs.fa
+    ├── METABAT__13/
+    │   └── METABAT__13-contigs.fa
+    └── METABAT__21/
+        └── METABAT__21-contigs.fa
 ```
 
 
-## Bin refinement
+### 2.1. Detecting chimeras in MAGs  
 
-We focus only on the ARCHAEA BINS!!
+For this, we will use [GUNC][gunc doc] to check for chimeras and potential contamination. Chimeric genomes are genomes wrongly assembled out of two or more genomes coming from separate organisms (see more [here][gunc paper].  
 
-Use anvi-summarize. *``Anvi-summarize`` lets you look at a comprehensive overview of your collection and its many statistics that anvi’o has calculated.
-It will create a folder called SUMMARY that contains many different summary files, including an HTML output that conveniently displays them all for you.”* 
-(https://anvio.org/help/7.1/programs/anvi-summarize/).
+[gunc doc]: https://grp-bork.embl-community.io/gunc/
+[gunc paper]: https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02393-0
 
-This command will also create ``.fa`` files of your bins, needed for further analysis using other programs.
+**Note:** `GUNC` is installed in the `00_gunc` environment.  
 
-Do not forget to activate the conda/micromamba environment
-
-``` 
-module load gcc12-env/12.1.0
-module load micromamba
-cd $WORK
-micromamba activate .micromamba/envs/00_anvio/
-``` 
-
-First, you can use the following command to get a list of your collections; then use anvi-summarize:
-
-```ssh
-anvi-summarize -p ? -c ? --list-collections
-anvi-summarize -c ? -p ? -C ? -o ? --just-do-it
+```bash
+gunc run -i ? -r ? --out_dir ? --detailed_output --threads 12
 ```
 
-<details><summary><b>Finished commands</b></summary>
+The database for `GUNC` is installed at:  
 
-```ssh
-anvi-summarize -p /PATH/TO/merged_profiles/PROFILE.db -c /PATH/TO/contigs.db --list-collections
+```bash
+$WORK/databases/gunc/gunc_db_progenomes2.1.dmnd
 ```
 
-Then use anvi-summarize as displayed below.
+<details><summary>$\color{yellow}Hint$</summary>
 
-!do not create the output folder beforehand. this command line will complain.
+> `-i <fasta>` : Input genome/MAG as `fasta` format.  
+> `-r <database>` : The reference database for `GUNC` to identify the taxa in the sample.  
+> `--out_dir <dir>`: Path to the output directory where the results will be stored.  
+> `--detailed_output` : Write output in details, of course :D  
+> `--threads 12` : The number of threads to use for faster computation.  
 
-```ssh
-anvi-summarize -c /PATH/TO/contigs.db -p /PATH/TO/merged_profiles/profile.db -C METABAT2 -o /PATH/TO/SUMMARY_METABAT2 --just-do-it
-```
 </details>
 
-Explore your summary table
+<details><summary><b>Complete command</b></summary>
 
-
-As each bin is stored in its own folder, use 
-
-replace the `###` by the number of your archaea MAG
-
-
-``` 
-cd /PATH/TO/SUMMARY/bin_by_bin
-
-mkdir ../../ARCHAEA_BIN_REFINEMENT
-
-cp /PATH/TO/bin_by_bin/METABAT_BIN_###/*.fa /PATH/TO/ARCHAEA_BIN_REFINEMENT/
-``` 
-
-!!!!!!!!!!!!!!!DO THIS FOR ALL ARCHAEA BINS YOU HAVE!!!!!!!!!!!!!!!
-
-### Chimera detection in MAGs
-
-Use [GUNC](https://grp-bork.embl-community.io/gunc/ ) to check run chimera detection. 
-
-**Genome UNClutter (GUNC)** is “a tool for detection of chimerism and contamination in prokaryotic genomes resulting from mis-binning of genomic contigs from unrelated lineages.”
-
-Chimeric genomes are genomes wrongly assembled out of two or more genomes coming from separate organisms. For more information on GUNC: https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02393-0
-
-to use [GUNC](https://grp-bork.embl-community.io/gunc/ ) , activate the following environment: 
-
+```bash
+gunc run -i ./path/to/METABAT_BIN_NNN/metabat_bin_NNN.fasta -r $WORK/databases/gunc/gunc_db_progenomes2.1.dmnd --out_dir ./path/to/METABAT_BIN_NNN/gunc_out --detailed_output --threads 12
 ```
-module load gcc12-env/12.1.0
-module load micromamba/1.3.1
-micromamba activate 00_gunc
-``` 
-Use the following loop to process all your files in one run: 
 
+</details>
 
-```ssh
-cd /PATH/TO/ARCHAEA_BIN_REFINEMENT
-mkdir 06_gunc
-for i in *.fa; do mkdir ./06_gunc/"$i"_out; done
+<details><summary><b>Advanced version</b></summary>
 
-for i in *.fa; do
-  gunc run -i "$i" -r $WORK/databases/gunc/gunc_db_progenomes2.1.dmnd --out_dir /PATH/TO/06_gunc/"$i"_out --threads 12 --detailed_output
+```bash
+for mag in ./path/to/METABAT__BIN_*/*.fa; do
+    bin_dir=$(dirname $mag)
+    gunc run -i $mag -r $WORK/databases/gunc/gunc_db_progenomes2.1.dmnd --out_dir ${bin_dir}/gunc_out --detailed_output --threads 12
 done
 ```
 
+</details>
 
-do this for each of the archaea bin in its specific folder to not overwrite the output
+If `GUNC` reports errors related to missing dependencies, try installing them:  
 
-
-```ssh
-
-cd /work_beegfs/sunam###/metagenomics/06_gunc/METABAT__###-contigs.fa_out
-gunc plot -d ./diamond_output/METABAT__#-contigs.diamond.progenomes_2.1.out -g ./gene_calls/gene_counts.json
-```
-
-in case of errors please run 
-
-```
+``` bash
+micromamba activate 00_gunc
 micromamba install bioconda::prodigal
 micromamba install bioconda::diamond==2.0.4.
 ```
 
 
-> `-i` name of the input file
-> `-r` name of the gunc database (downloaded in advance)
+### 2.2. Creating interactive plots of the chimeras  
 
-#### Questions
-* Do you get ${\color{red}ARCHAEA}$ bins that are chimeric? 
-* hint: look at the CSS score (explained in the lecture) and the column PASS GUNC in the tables outputs per bin in your gunc_output folder.
-* In your own words (2 sentences max), explain what is a chimeric bin.
+After running chimera detection, you can visualize the results in a plot.  
 
-> INSERT\
-> YOUR\
-> ANSWER\
-> HERE
+```bash
+gunc plot -d ? -g ? --out_dir ?
+```
 
-### Manual bin refinement
+<details><summary>$\color{yellow}Hint$</summary>
+
+> `-d <diamond>` : The database search result file from `diamond`, which is a program that `gunc run` uses in the background.  
+> `-g <gene_counts>` : The `gene_counts.json` file from `gunc run`.  
+> `--out_dir <dir>` : Output directory where the plotting results will be stored.  
+
+</details>
+
+<details><summary><b>Complete command</b></summary>
+
+``` bash
+gunc plot -d ./path/to/METABAT__BIN_NNN/gunc_out/diamond_output/*.diamond.progenomes_2.1.out -g ./path/to/gunc_out/gene_calls/gene_counts.json --out_dir ./path/to/gunc_out
+```
+
+</details>
+
+<details><summary><b>Advanced version</b></summary>
+
+```bash
+for mag in ./path/to/METABAT__BIN_*/*.fa; do
+    gunc plot -d ./diamond_output/METABAT__#-contigs.diamond.progenomes_2.1.out -g ./gene_calls/gene_counts.json
+    gunc run -i $mag -r $WORK/databases/gunc/gunc_db_progenomes2.1.dmnd --out_dir ./path/to/gunc_out --detailed_output --threads 12
+done
+```
+
+</details>
+
+
+## Questions
+
+
+- **Do you get $\color{red}ARCHAEA$ bins that are chimeric?**  
+    - $\color{yellow}Hint:$ Look at the CSS score and the column "PASS GUNC" in the `gunc` output tables for each bin.  
+- **In your own words, briefly explain what a chimeric bin is.**  
+
+
+## 3. Manual bin refinement  
 
 As large metagenome assemblies can result in hundreds of bins, pre-select the better ones for manual refinement, e.g. > 70% completeness.
 
@@ -156,7 +251,7 @@ module load gcc12-env/12.1.0
 module load micromamba/1.3.1
 micromamba activate 00_anvio
 
-anvi-refine -c /PATH/TO/contigs.db -C METABAT2 -p /PATH/TO/merged_profiles/PROFILE.db --bin-id METABAT__##
+anvi-refine -c ./path/to/contigs.db -C METABAT2 -p ./path/to/merged_profiles/PROFILE.db --bin-id METABAT__##
 ```
 
 You can now sort your bins by **GC content**, by **coverage** or both. 
