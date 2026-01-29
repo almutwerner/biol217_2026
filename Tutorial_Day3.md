@@ -490,6 +490,8 @@ anvi-merge /path/to/sample1/PROFILE.db /path/to/sample2/PROFILE.db /path/to/samp
 
 Now, everything is ready for genome _**binning**_. You will try and compare two programs: [`MetaBAT2`](https://bitbucket.org/berkeleylab/metabat/src/master/ ) and [`MaxBin2`](https://sourceforge.net/projects/maxbin2/).  
 
+After binning, look at the `.html` report in the output folder (`/path/to/SUMMARY_METABAT2/index.html`).  
+
 #### Using `MetaBAT2`  
 
 The binning is done as follows:  
