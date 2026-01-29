@@ -40,7 +40,7 @@ Luckily, the CAU cluster does have [interactive compute nodes](https://www.hiper
 
 Unless you follow the instructions below.  
 
-_**Note:**_ All internative commands should be entered $\color{red{directly\ in\ the\ terminal$ (not in a batch script), because they are, well, _interactive_.  
+_**Note:**_ All internative commands should be entered $\color{red}directly\ in\ the\ terminal$ (not in a batch script), because they are, well, _interactive_.  
 
 
 ### Step 1 - Initiate an interactive session  
