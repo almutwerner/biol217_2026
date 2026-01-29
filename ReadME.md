@@ -1,3 +1,21 @@
+<!-- - - - - - - - - - - - - - - - 
+Modder: Hieu
+Last update: 2026.01.29
+
+Modifications:  
+
+- Rewrite explanation completely.  
+- Explain the process and rationale in details.  
+- Fix inaccurate or confusing sample code.  
+- Add instructions for remote connections.  
+- Add table of contents.  
+
+To add:  
+- TBD
+
+- - - - - - - - - - - - - - - - -->
+
+
 # Biol217-2026
 
 <img src="./resources/Biol217_FIG.png" alt="Poster for biol217" width="800">
@@ -22,10 +40,12 @@ Luckily, the CAU cluster does have [interactive compute nodes](https://www.hiper
 
 Unless you follow the instructions below.  
 
+_**Note:**_ All internative commands should be entered $\color{red{directly\ in\ the\ terminal$ (not in a batch script), because they are, well, _interactive_.  
+
 
 ### Step 1 - Initiate an interactive session  
 
-First, you need to [request computing resources](https://www.hiperf.rz.uni-kiel.de/caucluster/slurm/#interactive-batch-usage) from the cluster to run interactive processes. The interactive nodes are only accessible from within the CAU cluster, so after you log into your `sunamNNN` account, run:  
+Your `sunamNNN` node does not have much computing resources for graphical display. Therefore, you need to [request computing resources](https://www.hiperf.rz.uni-kiel.de/caucluster/slurm/#interactive-batch-usage) from the cluster to run interactive processes. The interactive nodes (n246-n248) are only accessible from within the CAU cluster, so after you log into your `sunamNNN` account, run:  
 
 ``` bash
 srun --pty --x11 --partition=interactive --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --mem=10G --time=01:00:00 /bin/bash
@@ -44,7 +64,7 @@ In the terminal, activate the `anvi'o` environment:
 
 ``` bash
 module load gcc12-env/12.1.0
-module load micromamba 2> /dev/null/
+module load micromamba 2> /dev/null
 cd $WORK
 micromamba activate $WORK/.micromamba/envs/00_anvio/
 ```
@@ -74,7 +94,9 @@ Since we want to interact with the web app on node `nNNN` conveniently from the 
 
 The first `localhost:8080` is interpreted relative to the computer that initiates the `ssh` connection, while the second `localhost:8080` is interpreted relative to the remote `ssh` connection target. With the first `ssh` command, if a program/process talks to port `8080` on your classroom computer (such as a browser opening the `anvi'o` web app), that conversation will be forwarded to `sunamNNN` at port `8080`. With the second `ssh` command, if a process talks to port `8080` on `sunamNNN`, that conversation will then be forwarded to node `nNNN`.  
 
-Once the connections are established, you can start playing around with the data by accessing [http://127.0.0.1:8080/](http://127.0.0.1:8080/). If port `8080` is busy, you can try port `8060` instead (`ssh -L localhost:8060:localhost:8060` then access [http://127.0.0.1:8060/](http://127.0.0.1:8060/)).  
+Once the connections are established, you can start playing around with the data by accessing [http://127.0.0.1:8080/](http://127.0.0.1:8080/).
+
+_**Note:**_ Check the web address carefully. If the web address is, for example, [http://127.0.0.1:8081/](http://127.0.0.1:8080/), then you have to use `ssh -L localhost:8081:localhost:8081` instead of `8080`. Sometimes you may need to use `8060` if `8080` is busy.  
 
 
 ## How to connect to the CAU cluster from home  
