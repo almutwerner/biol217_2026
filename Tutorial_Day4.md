@@ -33,7 +33,7 @@ $${\color{red}DAY 4}$$
 * [Questions](#questions-1)
 * [3. Manual bin refinement](#3-manual-bin-refinement)
 * [Questions](#questions-2)
-* [4. Coverage visualization](#4-coverage-visualization)
+* [4. Visualizing Coverage](#4-visualizing-coverage)
 * [Questions](#questions-3)
 
 <!-- /Table of Contents -->
@@ -79,7 +79,7 @@ This data should also be available already as part of the `.html` report from bi
 
 Use the following command to initiate an interactive `anvi'o` session:  
 
-```
+```bash
 anvi-interactive -p ./path/to/merged_profiles/PROFILE.db -c ./path/to/contigs.db -C METABAT2
 ```
 
@@ -272,14 +272,17 @@ $\color{yellow}Tips:$
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-## 4. Coverage visualization
+## 4. Visualizing Coverage  
 
-How abundant are the Archaea MAGs, actually?  
+How abundant are the Archaea MAGs, actually? Take a look at them again.  
  
-**Do so by using anvio interactive interface.**
+```bash
+anvi-interactive -p ./path/to/merged_profiles/PROFILE.db -c ./path/to/contigs.db -C METABAT2
+```
 
-- **you can also use anvi-inspect -p -c, anvi-script-get-coverage-from-bam or, anvi-profile-blitz.** Please look up the help page for each of those commands and construct the appropriate command line
-!NOTE: check your binning html output, the second table, and look for mean coverage
+$\color{yellow}Hint:$ Also check the `index.html` report from binning.  
+
+$\color{yellow}Tip:$ You can also try [`anvi-inspect`][anvi-inspect], [`anvi-script-get-coverage-from-bam`][get-cov-bam], or [`anvi-profile-blitz`][prof-blitz]. You can check their `--help` result or look at their documentations for details.  
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -287,4 +290,4 @@ How abundant are the Archaea MAGs, actually?
 
 ## Questions  
   
-- **How abundant (relatively) are the $\color{red]Archaea$ bins in the 3 samples?**  
+- **How abundant (relatively) are the $\color{red}Archaea$ bins in the 3 samples?**  
