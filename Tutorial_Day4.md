@@ -168,14 +168,6 @@ done
 
 </details>
 
-If `GUNC` reports errors related to missing dependencies, try installing them:  
-
-``` bash
-micromamba activate 00_gunc
-micromamba install bioconda::prodigal
-micromamba install bioconda::diamond==2.0.4.
-```
-
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
