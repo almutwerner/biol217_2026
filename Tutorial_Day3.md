@@ -43,6 +43,7 @@ $${\color{red}DAY 3}$$
     * [3.6. Binning contigs into genomes](#36-binning-contigs-into-genomes)
         * [Using `MetaBAT2`](#using-metabat2)
         * [Using `MaxBin2`](#using-maxbin2)
+        * [Inspecting the bins](#inspecting-the-bins)
 * [Questions](#questions-1)
 
 <!-- /Table of Contents -->
@@ -488,13 +489,18 @@ anvi-merge /path/to/sample1/PROFILE.db /path/to/sample2/PROFILE.db /path/to/samp
 
 ### 3.6. Binning contigs into genomes  
 
-Now, everything is ready for genome _**binning**_. You will try and compare two programs: [`MetaBAT2`](https://bitbucket.org/berkeleylab/metabat/src/master/ ) and [`MaxBin2`](https://sourceforge.net/projects/maxbin2/).  
+Now, everything is ready for genome _**binning**_. You will try and compare two programs: [`MetaBAT2`][metabat2] and [`MaxBin2`][maxbin2].  
 
-After binning, look at the `.html` report in the output folder (`/path/to/SUMMARY_METABAT2/index.html`).  
+[metabat2]: https://bitbucket.org/berkeleylab/metabat/src/master/
+[maxbin2]: https://sourceforge.net/projects/maxbin2/
+
 
 #### Using `MetaBAT2`  
 
-The binning is done as follows:  
+The binning is done with [`anvi-cluster-contigs`][cluster-contigs] [`anvi-summarize`][anvi-summarize]
+
+[cluster-contigs]: https://anvio.org/help/main/programs/anvi-cluster-contigs/
+[anvi-summarize]: https://anvio.org/help/main/programs/anvi-summarize/
 
 ```bash
 anvi-cluster-contigs -p ? -c ? -C METABAT2 --driver metabat2 --log-file ? --just-do-it
@@ -545,6 +551,12 @@ anvi-summarize -p /path/to/merged_profiles/PROFILE.db -c /path/to/contigs.db -o 
 ```
 
 </details>
+
+
+#### Inspecting the bins  
+
+After binning, look at the `.html` report in the output folder (`/path/to/SUMMARY_METABAT2/index.html`).  
+Then, look into the output bin directory. What kinds of files are there? Where are the MAGs?  
 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
