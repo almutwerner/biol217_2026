@@ -183,8 +183,6 @@ anvi-script-gen-genomes-file --input-dir /path/to/input/dir \
 ## 6. Investigate contamination
 
 * Directly in the terminal
-* To identify and remove "bad"/untypical bins
-
 
 ```bash
 cd V_jascida_genomes
@@ -192,7 +190,7 @@ anvi-estimate-genome-completeness -e external-genomes.txt
 ```
 
 ## 7. Visualise contigs for refinement
-
+* To identify and remove "bad"/untypical bins
 ```bash
 anvi-profile -c V_jascida_52.db \
              --sample-name V_jascida_52 \
