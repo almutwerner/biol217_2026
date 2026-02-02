@@ -33,7 +33,7 @@ $${\color{red}DAY 6}$$
 ## AIMs: 
 - Step by step understanding of genome assembly.
 - To `assemble the genome` of a bacteria from short and long reads.
-- We will use hybrid assembler for a goo/high quality hybrid genome assembly.
+- We will use hybrid assembler for a goo/high quality hybrid genome assembly [Guide to genome assembly](https://rrwick.github.io/2020/10/30/guide-to-bacterial-genome-assembly.html)
 - We will check the quality in [Bandage](https://rrwick.github.io/Bandage/) (if Bandage works locally).
   - Please download th `linux version of bandage` from [here](https://rrwick.github.io/Bandage/)
   - unzip the content of folder
