@@ -500,7 +500,7 @@ echo "---------GTDB Classification Completed Successfully---------"
 cd $WORK
 micromamba activate .micromamba/envs/01_short_reads_qc
 # run multiqc
-multiqc $input_dir -o $output_dir
+multiqc genomics/ -o $output_dir
 ```
 
 <details style="background-color: black;">
