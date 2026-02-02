@@ -288,7 +288,7 @@ jobinfo
 > ANSWER\
 > HERE
 
-## 3. Assemble the genome using [Uniycler](https://github.com/rrwick/Unicycler)
+## 3. Assemble the genome using [Unicycler](https://github.com/rrwick/Unicycler)
 Allocate **64 GB RAM** for this script with 03:00:00
 
 ```bash
@@ -368,7 +368,6 @@ checkm qa ./c$checkm_out/lineage.ms ./$checkm_out/ -o 2 > ./$checkm_out/final_ta
 ```bash
 ## 4.2 CheckM
 micromamba activate .micromamba/envs/04_checkm
-checkm data setRoot $WORK/databases/checkm # Attach the database
 
 cd $WORK/genomics/3_hybrid_assembly
 mkdir -p $WORK/genomics/3_hybrid_assembly/checkm
