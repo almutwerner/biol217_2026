@@ -165,12 +165,12 @@ In a new terminal
 * update your sunam
 
 ```bash
-ssh -L 8060:localhost:8080 sunam###@caucluster.rz.uni-kiel.de
+ssh -L 8080:localhost:8080 sunam###@caucluster.rz.uni-kiel.de
 
 ssh -L 8080:localhost:8080 n100
 ```
 
-click: http://127.0.0.1:8060/
+click: http://127.0.0.1:8080/
 
 Afterwards exit the node pressing `Ctrl + D` twice.
 
@@ -233,11 +233,11 @@ anvi-interactive -c V_jascida_52.db \
 In a new terminal (update the node "n100" to actually used one)
 
 ```bash
-ssh -L 8060:localhost:8080 sunam226@caucluster.rz.uni-kiel.de
+ssh -L 8080:localhost:8080 sunam226@caucluster.rz.uni-kiel.de
 
 ssh -L 8080:localhost:8080 n100
 ```
-click: http://127.0.0.1:8060/
+click: http://127.0.0.1:8080/
 
 ## 8. Splitting the genome in our good bins
 * Seperate the good bins stored in "default" from the unwanted bins
@@ -304,11 +304,11 @@ anvi-display-pan -p V_jascida/V_jascida-PAN.db \
 In a new terminal (update the node "n100" to actually used one)
 
 ```bash
-ssh -L 8060:localhost:8080 sunam226@caucluster.rz.uni-kiel.de
+ssh -L 8080:localhost:8080 sunam226@caucluster.rz.uni-kiel.de
 
 ssh -L 8080:localhost:8080 n100
 
-click: http://127.0.0.1:8060/
+click: http://127.0.0.1:8080/
 ```
 
 # Questions:
