@@ -172,7 +172,7 @@ anvi-script-gen-genomes-file --input-dir /path/to/input/dir \
 
 ```bash
 cd V_jascida_genomes
-anvi-estimate-genome-completeness -e external-genomes.txt
+anvi-estimate-genome-completeness -e external-genomes.txt -o genome_completeness.txt
 ```
 
 ## 7. Visualise contigs for refinement
@@ -218,7 +218,8 @@ anvi-interactive -c V_jascida_52.db \
 * For Help what a good/bad bin is look at the [ANVIO TUTORIAL](https://merenlab.org/tutorials/vibrio-jasicida-pangenome/) part "Visualizing contigs for refinement"
 
 ## 8. Splitting the genome in our good bins
-
+* In the `sed` command: dont change the path.
+* Only change `V_jascida_52_CLEAN` to whatever you named your bin
 ```bash
 anvi-split -p V_jascida_52/PROFILE.db \
            -c V_jascida_52.db \
@@ -233,14 +234,14 @@ sed 's/V_jascida_52.db/V_jascida_52_SPLIT\/V_jascida_52_CLEAN\/CONTIGS.db/g' ext
 ## 9. Estimate completeness of split vs. unsplit genome:
 
 ```bash
-anvi-estimate-genome-completeness -e external-genomes.txt -o genome_completeness.txt
+anvi-estimate-genome-completeness -e external-genomes-final.txt -o genome_completeness_final.txt
 ``` 
 
 ## 10. Compute pangenome
 Use **32 GB RAM**, **8 CPUS-per-task** and **03:00:00 hours** for these steps
 ```bash
 # generate a genome storage database
-anvi-gen-genomes-storage -e external-genomes.txt \
+anvi-gen-genomes-storage -e external-genomes-final.txt \
                          -o V_jascida-GENOMES.db
 
 # calculate the pangenome
@@ -249,7 +250,7 @@ anvi-pan-genome -g V_jascida-GENOMES.db \
                 --num-threads 8   
 
 # calculate the ANI 
-anvi-compute-genome-similarity -e external-genomes.txt \
+anvi-compute-genome-similarity -e external-genomes-final.txt \
                  -o ani \
                  -p V_jascida/V_jascida-PAN.db  \
                  -T 8                                      
