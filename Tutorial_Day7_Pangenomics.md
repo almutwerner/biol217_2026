@@ -130,7 +130,7 @@ done
 ``` 
 
 ## 4. Visualize `contigs.db`
-
+<!--
 **Directly in the terminal** write these commands:
 * Test it first like this 
     * If this worked, you can skip directly to point <u>**5 Create external genomes file** </u>
@@ -143,7 +143,9 @@ micromamba activate .micromamba/envs/00_anvio/
 
 anvi-display-contigs-stats /path/to.your/databases/*db
 ```
-If this did not work use srun to open the interactive display. 
+-->
+
+Use srun to open the interactive display. 
 * Further information on how to use this can be found in the [Github readME](https://github.com/almutwerner/biol217_2026/blob/main/ReadME.md) 
 
 ```bash
@@ -198,8 +200,9 @@ anvi-profile -c V_jascida_52.db \
              --blank
 ```
 
-Now to display run this command directly in the terminal
+Now to display run this command directly in the terminal **using srun to visualize**
 
+<!--
 ```
 anvi-interactive -c V_jascida_52.db \
                  -p V_jascida_52/PROFILE.db
@@ -210,6 +213,7 @@ anvi-interactive -c V_jascida_52.db \
 * save this bin as "default"
 
 > **Note:** If the terminal does not open a browser, you can try to use the srun command otherwise ifnore the `srun`.
+-->
 
 ```bash
 srun --pty --mem=10G --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --partition=base /bin/bash
@@ -273,13 +277,15 @@ anvi-compute-genome-similarity -e external-genomes.txt \
 ```
 
 ## 11. Display the pangenome
+<!--
 If visualition works without srun use:
 ```
 anvi-display-pan -p V_jascida/V_jascida-PAN.db \
                  -g V_jascida-GENOMES.db
 ```
+-->
 
-Otherwise use srun to display as before:
+Use srun to visualize:
 ```bash
 srun --pty --mem=10G --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --partition=base /bin/bash
 
@@ -354,6 +360,8 @@ anvi-import-misc-data -p PROCHLORO/Prochlorococcus_Pan-PAN.db \
 ```
 
 > **`Now you can view your pangenome`**
+Use srun to visualiaze
+
 ```bash
 anvi-display-pan -g PROCHLORO-GENOMES.db \
                  -p PROCHLORO/Prochlorococcus_Pan-PAN.db
@@ -486,11 +494,10 @@ iqtree -s ${name}/${name}-SCGs-clean.fa \
 
 
 ### Change the code for display
+Using srun to visualize
 
 ```bash
 # run on front end
 anvi-display-pan -p bacteroides/bacteroides-PAN.db \
                     -g bacteroides-GENOMES.db
 ```
-
-> If it doe's not work, you can try to use srun command given above.
