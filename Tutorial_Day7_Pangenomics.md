@@ -212,8 +212,12 @@ micromamba activate .micromamba/envs/00_anvio/
 anvi-interactive -c V_jascida_52.db \
                  -p V_jascida_52/PROFILE.db
 ```
+** IN THE INTERACTIVE DISPLAY** 
+* Seperate all the good bins from the unwanted bins
+* store them as "default" 
+* For Help what a good/bad bin is look at the [ANVIO TUTORIAL](https://merenlab.org/tutorials/vibrio-jasicida-pangenome/) part "Visualizing contigs for refinement"
+
 ## 8. Splitting the genome in our good bins
-* Seperate the good bins stored in "default" from the unwanted bins
 
 ```bash
 anvi-split -p V_jascida_52/PROFILE.db \
