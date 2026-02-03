@@ -159,22 +159,6 @@ micromamba activate .micromamba/envs/00_anvio/
 anvi-display-contigs-stats /path/to.your/databases/*db
 ```
 
-
-In a new terminal 
-* update the node `n100` to actually used one (stated in the srun terminal)
-* update your sunam
-
-```bash
-ssh -L 8080:localhost:8080 sunam###@caucluster.rz.uni-kiel.de
-
-ssh -L 8080:localhost:8080 n100
-```
-
-click: http://127.0.0.1:8080/
-
-Afterwards exit the node pressing `Ctrl + D` twice.
-
-
 ## 5. Create external genomes file
 
 ```bash
@@ -228,17 +212,6 @@ micromamba activate .micromamba/envs/00_anvio/
 anvi-interactive -c V_jascida_52.db \
                  -p V_jascida_52/PROFILE.db
 ```
-
-
-In a new terminal (update the node "n100" to actually used one)
-
-```bash
-ssh -L 8080:localhost:8080 sunam226@caucluster.rz.uni-kiel.de
-
-ssh -L 8080:localhost:8080 n100
-```
-click: http://127.0.0.1:8080/
-
 ## 8. Splitting the genome in our good bins
 * Seperate the good bins stored in "default" from the unwanted bins
 
@@ -299,16 +272,6 @@ micromamba activate .micromamba/envs/00_anvio/
 
 anvi-display-pan -p V_jascida/V_jascida-PAN.db \
                  -g V_jascida-GENOMES.db
-```
-
-In a new terminal (update the node "n100" to actually used one)
-
-```bash
-ssh -L 8080:localhost:8080 sunam226@caucluster.rz.uni-kiel.de
-
-ssh -L 8080:localhost:8080 n100
-
-click: http://127.0.0.1:8080/
 ```
 
 # Questions:
