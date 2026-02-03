@@ -149,7 +149,7 @@ Use srun to open the interactive display.
 * Further information on how to use this can be found in the [Github readME](https://github.com/almutwerner/biol217_2026/blob/main/ReadME.md) 
 
 ```bash
-srun --reservation=biol217 --pty --mem=16G --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --partition=base /bin/bash
+srun --pty --x11 --partition=interactive --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --mem=10G --time=01:00:00 /bin/bash
 
 module load gcc12-env/12.1.0
 module load micromamba/1.4.2
@@ -216,7 +216,9 @@ anvi-interactive -c V_jascida_52.db \
 -->
 
 ```bash
-srun --pty --mem=10G --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --partition=base /bin/bash
+srun --pty --x11 --partition=interactive --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --mem=10G --time=01:00:00 /bin/bash
+
+
 
 module load gcc12-env/12.1.0
 module load micromamba/1.4.2
@@ -287,7 +289,7 @@ anvi-display-pan -p V_jascida/V_jascida-PAN.db \
 
 Use srun to visualize:
 ```bash
-srun --pty --mem=10G --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --partition=base /bin/bash
+srun --pty --x11 --partition=interactive --nodes=1 --tasks-per-node=1 --cpus-per-task=1 --mem=10G --time=01:00:00 /bin/bash
 
 module load gcc12-env/12.1.0
 module load micromamba/1.4.2
