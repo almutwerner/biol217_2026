@@ -84,7 +84,7 @@ Since MVP only prepares output for host prediction via iPHoP (some tools need sp
 ---
 ## 3. Commands (Do **not** execute\!)
 
-🔴 **You will not run the commands as they take a long time and databases are very large\!**🔴
+🔴 **You will not run the commands as they take a long time and databases are very large\!** 🔴
 
 Instead, we ran them for you. Here is what we did:
 
@@ -499,9 +499,9 @@ Tip: Just look at the file names.
 
 	Answer these questions for **all** of your complete viruses:
 	* **How many genes** does the complete virus have?
-	<details><summary><b>Hint</b></summary>
-	After filtering, select all result rows and look at the bottom of the window.
-	</details>
+		<details><summary><b>Hint</b></summary>
+		After filtering, select all result rows and look at the bottom of the window.
+		</details>
 
 	* What kind of genes does this virus have? Look at the **PHROGS_Category**. (This can also be solved by using commands)
 
