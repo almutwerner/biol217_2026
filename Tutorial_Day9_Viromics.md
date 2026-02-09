@@ -154,6 +154,8 @@ iphop predict --fa_file ./MVP_07_Filtered_conservative_Prokaryote_Host_Only_best
 
 These are questions to help you pause and ask yourself if you understood everything. **Do not skip them**, they are designed to help you understand what you are doing and why. Try to **answer them on your own** first (neighbours may be consulted). But please carefully **read the provided solutions afterwards**. If you don't understand the solution, let us know so we can help!
 
+The questions marked as [*Optional*] can be skipped, if you are tight on time.
+
 ### Output structure and how to best create commands
 🔴 Since it is only small queries you do **not** need to write scripts! Just write commands directly in the terminal! **No sbatch, no scripts, no interactive sessions, just terminal!** 🔴
 
@@ -355,7 +357,7 @@ Tip: Just look at the file names.
 	```
 	cut -f 1 03_CLUSTERING/MVP_03_All_Sample_Filtered_Relaxed_Merged_Genomad_CheckV_Representative_Virus_Proviruses_Quality_Summary.tsv |sort|uniq |wc -l
 	```
-	Here, we extract the first column (that has the identifyers of all cluster representatives). Then, we sort it and use only the unique lines (sorting is needed to ensure that uniq works properly). Counting is done using the alternative method mentioned above, but you could also do ```grep -c ""```.
+	Here, we extract the first column (that has the identifiers of all cluster representatives). Then, we sort it and use only the unique lines (sorting is needed to ensure that uniq works properly). Counting is done using the alternative method mentioned above, but you could also do ```grep -c ""```.
 	</details>
 
 12) How many of the cluster representatives are **proviruses**?
@@ -412,7 +414,7 @@ Tip: Just look at the file names.
 	As you just learned, this file contains mapping information about **all** viruses but for only **one** sample. If you look back at your table from 7), not every sample contains 5000+ viruses. So the lines with only zeros are cluster representatives for viruses that a) weren't assembled from this particular sample and b) didn't even have any matching reads (if you remember from Alex' lectures: Not all reads become contigs, not all contigs become vMAGs). Those can be e.g. viruses that weren't present at this timepoint (e.g. died out), in this sample (they swam away when the technician came to collect), or that were in the sample but didn't get sequenced or the reads got filtered out in the read cleaning step.
 	</details>
 
-16) Right now, the output for this module is spread across multiple files, which is inconvenient and happens a lot in bioinformatics. Luckily, each file has a column where the sample information is listed anyways, so we can merge them. **Task**: Merge all **CoverM** files for all the samples (order doesn't matter) using e.g. the ```cat``` command (not cut). Remember to exclude the headers and keep only one. Your finished file should have ```96733 lines total```.
+16) [*Optional*] Right now, the output for this module is spread across multiple files, which is inconvenient and happens a lot in bioinformatics. Luckily, each file has a column where the sample information is listed anyways, so we can merge them. **Task**: Merge all **CoverM** files for all the samples (order doesn't matter) using e.g. the ```cat``` command (not cut). Remember to exclude the headers and keep only one. Your finished file should have ```96733 lines total```.
 	<details><summary><b>Hint</b></summary>
 
 	Cat con**cat**enates multiple files and prints the result. It is compatible with wildcards. You can **redirect** output that is being printed to the terminal to a file by using the ```>``` character (you did this in the metagenomic parts when converting sam to bam!) This is how you use it:
@@ -453,7 +455,7 @@ Tip: Just look at the file names.
 
 17) Using the file you just created, how **abundant** are the complete viruses in different samples (**RPKM**)? Create a table.
 	<details><summary><b>Hint</b></summary>
-	Remember what you learned before: All the sequences have unique identifyers. How were your complete viruses called (Task 13)?
+	Remember what you learned before: All the sequences have unique identifiers. How were your complete viruses called (Task 13)?
 
 	Remember what you learned before: How could you look for multiple patterns within a file?
 	</details>
@@ -493,9 +495,10 @@ Tip: Just look at the file names.
 
 19) We will focus on the file with the **conservative** results. Find the lines regarding the **complete viruses**.
 
-	For this, we will be using **LibreOfficeCalc** (Working with Excel substitutes is another cornerstone of Bioinformatics). Open the file. Then find the **quick filter function** (or press ```SHIFT CTRL L```). Column 3 contains the sequence identifyers we have been using the whole time, while column 2 has gene IDs. **Filter your results** by clicking on the arrow at column 3 and pasting the first of your complete virus identifyers into the search bar there (repeat for all complete viruses later).
+	For this, we will be using **LibreOfficeCalc** (Working with Excel substitutes is another cornerstone of Bioinformatics). In order for it to work, you need to **download the file to your PC** (it doesn't work directly from the cluster!). Open the file. Then find the **quick filter function** (or press ```SHIFT CTRL L```). Column 3 contains the sequence identifiers we have been using the whole time, while column 2 has gene IDs. **Filter your results** by clicking on the arrow at column 3 and pasting the first of your complete virus identifiers into the search bar there (repeat for all complete viruses later).
 
 	**Important**: As soon as you open the **filtering window**, you can't use your keyboard anywhere else (e.g. to copy things). You need to close the popup first, then you can copy things again.
+	Also, make sure to scroll to the sides. There are **more columns** in the table than you can currently see!
 
 	Answer these questions for **all** of your complete viruses:
 	* **How many genes** does the complete virus have?
@@ -516,7 +519,7 @@ Tip: Just look at the file names.
 
 	What kind of **metabolism** are the viruses involved in?
 
-21) While still looking at the results filtered for ```moron, auxiliary metabolic gene and host takeover```:  Are there any **toxin genes**? Briefly look up the function of them (What do they do, where do they occur, what does it mean for this virus and its host?)
+21) [*Optional*] While still looking at the results filtered for ```moron, auxiliary metabolic gene and host takeover```:  Are there any **toxin genes**? Briefly look up the function of them (What do they do, where do they occur, what does it mean for this virus and its host?)
 	<details><summary><b>Hint</b></summary>
 
 	Column **PHROGS_Annotation** or **PFAM_Annotation**
@@ -579,7 +582,7 @@ Tip: Just look at the file names.
 
 	<details><summary><b>Solution (only read once you tried thinking on your own!)</b></summary>
 
-	The input file contains the **best vBins** (written as vBin_number in the table, with vRhyme_number__sequenceID being individual sequences of that bin), and all **unbinned vOTU representatives**. Each line is one virus (unbinned vOTU representative, vMAG, or vBin member=binned vOTU representative), where a **host** could be predicted. Viruses **without** a prediction are **not** in the file. Hosts that start with BGR_* are **MAGs** from the dataset, while all other host identifyers are from reference databases.
+	The input file contains the **best vBins** (written as vBin_number in the table, with vRhyme_number__sequenceID being individual sequences of that bin), and all **unbinned vOTU representatives**. Each line is one virus (unbinned vOTU representative, vMAG, or vBin member=binned vOTU representative), where a **host** could be predicted. Viruses **without** a prediction are **not** in the file. Hosts that start with BGR_* are **MAGs** from the dataset, while all other host identifiers are from reference databases.
 	</details>
 
 27) What hosts were predicted for the **complete viruses**? From what habitat did the hosts come from?
